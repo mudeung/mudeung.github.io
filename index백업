@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>무등산 위치 공유시스템</title>
+
+  <!-- 검색엔진 노출 제한 -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+
+  <!-- 리퍼러 정보 보호 -->
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#e9e9e9">
+
+  <!-- 콘텐츠 보안 정책 -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://mudeung.github.io data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+
+  <!-- CSS 연결 -->
+  <link rel="stylesheet" href="./style.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- JavaScript 연결 -->
+  <script src="./main.js" defer></script>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="logo">
+      <span class="sos">SOS</span>
+    </div>
+
+    <div class="title">무등산 위치 공유시스템</div>
+    <div class="subtitle">무등산특수산악구조팀</div>
+  </div>
+
+  <div class="icon-grid">
+
+    <div class="icon-card" data-href="https://mudeung.github.io/gpscall.html" tabindex="0" role="link">
+      <div class="icon">📞</div>
+      <div class="icon-text">산악구조문자</div>
+    </div>
+
+    <div class="icon-card" data-href="https://mudeung.github.io/gps.html" tabindex="0" role="link">
+      <div class="icon">📍</div>
+      <div class="icon-text">위치공유</div>
+    </div>
+
+    <div class="icon-card" data-href="https://mudeung.github.io/emscall.html" tabindex="0" role="link">
+      <div class="icon">🖥️</div>
+      <div class="icon-text">위치확인</div>
+    </div>
+
+    <div class="icon-card" data-href="https://mudeung.github.io/rescue.html" tabindex="0" role="link">
+      <div class="icon">🖥️</div>
+      <div class="icon-text">위치이동</div>
+    </div>
+
+  </div>
+
+</body>
+</html>
