@@ -1,103 +1,128 @@
-
 "use strict";
 
-const allowedUrls = new Set([
-  "https://mudeung.github.io/gpscall.html",
-  "https://mudeung.github.io/gps.html",
-  "https://mudeung.github.io/emscall.html",
-  "https://mudeung.github.io/rescue.html"
-]);
+(() => {
+  const passwordPanel = document.getElementById("passwordPanel");
+  const passwordForm = document.getElementById("passwordForm");
+  const passwordInput = document.getElementById("accessPassword");
+  const passwordStatus = document.getElementById("passwordStatus");
+  const passwordTarget = document.getElementById("passwordTarget");
+  const cancelButton = document.getElementById("cancelPassword");
 
-// 기본 화면 잠금용 예시 암호.
-// GitHub Pages에서는 이 암호가 소스 코드에 노출됩니다.
-const COMMON_PASSWORD = "1187";
-
-const protectedUrls = new Set([
-  "https://mudeung.github.io/gpscall.html",
-  "https://mudeung.github.io/emscall.html"
-]);
-
-const cards = document.querySelectorAll(".icon-card[data-href]");
-const panel = document.getElementById("passwordPanel");
-const form = document.getElementById("passwordForm");
-const passwordInput = document.getElementById("accessPassword");
-const status = document.getElementById("passwordStatus");
-const targetText = document.getElementById("passwordTarget");
-const cancelButton = document.getElementById("cancelPassword");
-
-let pendingUrl = null;
-
-function closePasswordPanel() {
-  panel.hidden = true;
-  form.reset();
-  status.textContent = "";
-  pendingUrl = null;
-}
-
-function openPasswordPanel(url) {
-  pendingUrl = url;
-  panel.hidden = false;
-  status.textContent = "";
-
-  targetText.textContent =
-    url === "https://mudeung.github.io/gpscall.html"
-      ? "산악구조문자 메뉴에 접속하려면 공통 암호를 입력하세요."
-      : "위치확인 메뉴에 접속하려면 공통 암호를 입력하세요.";
-
-  passwordInput.value = "";
-  passwordInput.focus();
-
-  panel.scrollIntoView({
-    behavior: "smooth",
-    block: "center"
-  });
-}
-
-function navigate(url) {
-  if (!allowedUrls.has(url)) return;
-
-  if (protectedUrls.has(url)) {
-    openPasswordPanel(url);
+  if (
+    !passwordPanel ||
+    !passwordForm ||
+    !passwordInput ||
+    !passwordStatus ||
+    !passwordTarget ||
+    !cancelButton
+  ) {
+    console.error("암호 입력 UI 요소를 찾을 수 없습니다.");
     return;
   }
 
-  window.location.assign(url);
-}
+  // 주의: 브라우저에 저장하는 암호는 안전한 비밀 정보가 아닙니다.
+  // 실제 보안이 필요한 서비스에서는 서버 측 인증을 사용하세요.
+  const ACCESS_PASSWORD = "CHANGE_THIS_PASSWORD";
 
-cards.forEach(card => {
-  function handleNavigation() {
-    navigate(card.dataset.href);
+  let pendingUrl = null;
+  let isSubmitting = false;
+
+  function openPasswordDialog(url) {
+    pendingUrl = url;
+    passwordInput.value = "";
+    passwordStatus.textContent = "";
+    passwordTarget.textContent =
+      "접속하려면 공통 암호를 입력하세요.";
+
+    if (!passwordPanel.open) {
+      passwordPanel.showModal();
+    }
+
+    passwordInput.focus();
   }
 
-  card.addEventListener("click", handleNavigation);
+  function closePasswordDialog() {
+    pendingUrl = null;
+    passwordInput.value = "";
+    passwordStatus.textContent = "";
 
-  card.addEventListener("keydown", event => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      handleNavigation();
+    if (passwordPanel.open) {
+      passwordPanel.close();
+    }
+  }
+
+  passwordForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (isSubmitting || !pendingUrl) {
+      return;
+    }
+
+    if (!passwordForm.reportValidity()) {
+      return;
+    }
+
+    isSubmitting = true;
+
+    try {
+      if (passwordInput.value !== ACCESS_PASSWORD) {
+        passwordStatus.textContent =
+          "암호가 올바르지 않습니다. 다시 입력해 주세요.";
+        passwordInput.value = "";
+        passwordInput.focus();
+        return;
+      }
+
+      // 사전에 지정된 HTTPS 주소만 허용
+      const allowedHosts = new Set(["mudeung.github.io"]);
+      const destination = new URL(pendingUrl, window.location.href);
+
+      if (
+        destination.protocol !== "https:" ||
+        !allowedHosts.has(destination.hostname) ||
+        ![
+          "/gpscall.html",
+          "/gps.html",
+          "/emscall.html",
+          "/rescue.html"
+        ].includes(destination.pathname)
+      ) {
+        passwordStatus.textContent =
+          "허용되지 않은 접속 주소입니다.";
+        return;
+      }
+
+      const destinationUrl = destination.href;
+      closePasswordDialog();
+      window.location.assign(destinationUrl);
+    } catch (error) {
+      console.error("메뉴 이동 중 오류가 발생했습니다.", error);
+      passwordStatus.textContent =
+        "처리 중 오류가 발생했습니다. 다시 시도해 주세요.";
+    } finally {
+      isSubmitting = false;
     }
   });
-});
 
-form.addEventListener("submit", event => {
-  event.preventDefault();
+  cancelButton.addEventListener("click", closePasswordDialog);
 
-  if (!pendingUrl || !allowedUrls.has(pendingUrl)) {
-    closePasswordPanel();
-    return;
-  }
-
-  if (passwordInput.value !== COMMON_PASSWORD) {
-    status.textContent = "암호가 올바르지 않습니다. 다시 입력해주세요.";
+  passwordPanel.addEventListener("close", () => {
+    pendingUrl = null;
     passwordInput.value = "";
-    passwordInput.focus();
-    return;
-  }
+    passwordStatus.textContent = "";
+  });
 
-  const destination = pendingUrl;
+  // 링크를 클릭할 때 암호 입력창 표시
+  document.querySelectorAll(".icon-card").forEach((card) => {
+    card.addEventListener("click", (event) => {
+      const href = card.getAttribute("href");
 
-  closePasswordPanel();
-  window.location.assign(destination);
-});
+      if (!href) {
+        return;
+      }
 
-cancelButton.addEventListener("click", closePasswordPanel);
+      event.preventDefault();
+      openPasswordDialog(href);
+    });
+  });
+})();
