@@ -595,6 +595,40 @@ header{
 
 <body>
 
+<!-- 암호 입력창 -->
+<dialog id="passwordPanel" class="password-panel"
+        aria-labelledby="passwordHeading"
+        aria-describedby="passwordDescription">
+
+  <h2 id="passwordHeading">암호 입력</h2>
+
+  <p id="passwordDescription">
+    접속하려면 접속 암호를 입력하세요.
+  </p>
+
+  <form id="passwordForm">
+    <div class="password-input-row">
+      <input
+        id="accessPassword"
+        name="accessPassword"
+        type="password"
+        placeholder="접속 암호"
+        autocomplete="current-password"
+        maxlength="128"
+        required
+      >
+
+      <button type="submit" class="button">
+        확인
+      </button>
+    </div>
+
+    <p id="passwordStatus" role="status"
+       aria-live="polite"></p>
+  </form>
+</dialog>
+
+      
 <header>
 🛰 SEARCH & RESCUE AI Ver1.2
 </header>
