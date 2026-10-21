@@ -7,14 +7,20 @@
 
   <title>무등산 산악구조 링크 문자전송</title>
 
-  <meta name="robots" content="noindex, nofollow, noarchive">
+  <!-- 검색엔진 노출 제한 -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+
+  <!-- 리퍼러 정보 전송 제한 -->
   <meta name="referrer" content="no-referrer">
+
   <meta name="theme-color" content="#111111">
 
-  <!-- 인라인 스크립트와 스타일을 차단하고 같은 출처 파일만 허용 -->
+  <!-- 콘텐츠 보안 정책 -->
   <meta http-equiv="Content-Security-Policy"
     content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 
+  <!-- 외부 파일 연결 -->
   <link rel="stylesheet" href="./styles.css">
   <script src="./rescue.js" defer></script>
 </head>
