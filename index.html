@@ -283,119 +283,54 @@ body{
       </div>
 
 <script>
-    
-<!-- =====================================================
-         우클릭 및 개발자도구 단축키 방지
-    ====================================================== -->
+/* =========================
+   우클릭 및 개발자도구 단축키 방지
+   ========================= */
 
-    <script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+});
 
-        document.addEventListener(
-            "contextmenu",
-            function(e) {
+document.addEventListener('keydown', function(e) {
 
-                e.preventDefault();
+    // F12
+    if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+    }
 
-                return false;
+    // Ctrl + U (페이지 소스 보기)
+    if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+        e.preventDefault();
+        return false;
+    }
 
-            }
-        );
+    // Ctrl + Shift + I (개발자 도구)
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') {
+        e.preventDefault();
+        return false;
+    }
 
+    // Ctrl + Shift + J (콘솔)
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'j') {
+        e.preventDefault();
+        return false;
+    }
 
-        document.addEventListener(
-            "keydown",
-            function(e) {
+    // Ctrl + Shift + C (요소 선택)
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'c') {
+        e.preventDefault();
+        return false;
+    }
 
-
-                /* F12 */
-
-                if (
-                    e.key === "F12"
-                ) {
-
-                    e.preventDefault();
-
-                    return false;
-
-                }
-
-
-                /* Ctrl + U */
-
-                if (
-                    e.ctrlKey &&
-                    e.key.toLowerCase() === "u"
-                ) {
-
-                    e.preventDefault();
-
-                    return false;
-
-                }
-
-
-                /* Ctrl + Shift + I */
-
-                if (
-                    e.ctrlKey &&
-                    e.shiftKey &&
-                    e.key.toLowerCase() === "i"
-                ) {
-
-                    e.preventDefault();
-
-                    return false;
-
-                }
-
-
-                /* Ctrl + Shift + J */
-
-                if (
-                    e.ctrlKey &&
-                    e.shiftKey &&
-                    e.key.toLowerCase() === "j"
-                ) {
-
-                    e.preventDefault();
-
-                    return false;
-
-                }
-
-
-                /* Ctrl + Shift + C */
-
-                if (
-                    e.ctrlKey &&
-                    e.shiftKey &&
-                    e.key.toLowerCase() === "c"
-                ) {
-
-                    e.preventDefault();
-
-                    return false;
-
-                }
-
-
-                /* Ctrl + S */
-
-                if (
-                    e.ctrlKey &&
-                    e.key.toLowerCase() === "s"
-                ) {
-
-                    e.preventDefault();
-
-                    return false;
-
-                }
-
-            }
-        );
-    </script>
-
+    // Ctrl + S (페이지 저장)
+    if (e.ctrlKey && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        return false;
+    }
+});
+</script>
     
 </body>
 </html>
