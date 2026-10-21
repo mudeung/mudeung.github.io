@@ -57,33 +57,6 @@
       </a>
     </section>
   </main>
-
-  <dialog id="passwordPanel" class="password-panel"
-    aria-labelledby="passwordHeading"
-    aria-describedby="passwordTarget">
-    <h2 id="passwordHeading">암호 입력</h2>
-    <p id="passwordTarget">접속하려면 접속 암호를 입력하세요.</p>
-
-    <form id="passwordForm">
-      <label for="accessPassword">접속 암호</label>
-      <input
-        id="accessPassword"
-        name="accessPassword"
-        type="password"
-        autocomplete="current-password"
-        required
-        maxlength="128"
-      >
-
-      <p id="passwordStatus" role="status" aria-live="polite"></p>
-
-      <div class="password-actions">
-        <button type="submit" class="button button-primary">확인</button>
-        <button type="button" id="cancelPassword"
-          class="button button-secondary">취소</button>
-      </div>
-    </form>
-  </dialog>
   
 </body>
 </html>
