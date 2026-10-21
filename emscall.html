@@ -497,6 +497,97 @@ header{
 
 }
 
+
+/* 암호 입력창 */
+.password-panel {
+  width: min(420px, calc(100% - 32px));
+  max-width: 420px;
+  padding: 26px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  color: #20242a;
+  box-shadow: 0 18px 60px #00000025;
+}
+
+.password-panel::backdrop {
+  background: #111827cc;
+  backdrop-filter: blur(3px);
+}
+
+.password-panel h2 {
+  margin: 0 0 10px;
+  color: #20242a;
+  font-size: 22px;
+  text-align: left;
+}
+
+.password-panel > p {
+  color: var(--muted);
+  line-height: 1.6;
+  text-align: left;
+}
+
+/* 암호 입력창과 확인 버튼 한 줄 배치 */
+.password-input-row {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.password-input-row input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  height: 46px;
+  padding: 0 12px;
+  border: 1px solid #aeb5be;
+  border-radius: 10px;
+  background: #fff;
+  color: #20242a;
+  font: inherit;
+}
+
+.password-input-row .button {
+  flex: 0 0 82px;
+  width: 82px;
+  height: 46px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--primary);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#passwordStatus {
+  min-height: 24px;
+  margin: 8px 0 0;
+  color: var(--primary);
+  font-size: 14px;
+  text-align: left;
+}
+
+.password-input-row input:focus-visible,
+.password-input-row button:focus-visible {
+  outline: 3px solid #1769aa;
+  outline-offset: 3px;
+}
+
+@media (max-width: 380px) {
+  body {
+    padding: 24px 12px;
+  }
+
+  .password-panel {
+    padding: 20px;
+  }
+}      
+      
 </style>
 
 </head>
