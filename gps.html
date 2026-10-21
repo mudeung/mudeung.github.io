@@ -338,22 +338,34 @@
 
 
 <body>
-<dialog id="passwordPanel">
-  <h2>암호 입력</h2>
-  <p>접속 암호를 입력하세요.</p>
+<!-- =====================================================
+         암호
+    ====================================================== -->
+  <dialog id="passwordPanel" class="password-panel"
+        aria-labelledby="passwordHeading">
+  <h2 id="passwordHeading">암호 입력</h2>
+  <p>접속하려면 접속 암호를 입력하세요.</p>
 
   <form id="passwordForm">
-    <input
-      id="accessPassword"
-      type="password"
-      placeholder="접속 암호"
-      required
-    >
-    <button type="submit">확인</button>
-  </form>
+    <div class="password-input-row">
+      <input
+        id="accessPassword"
+        name="accessPassword"
+        type="password"
+        placeholder="접속 암호"
+        autocomplete="current-password"
+        maxlength="128"
+        required
+      >
 
-  <p id="passwordStatus"></p>
-</dialog>
+      <button type="submit" class="button button-primary">
+        확인
+      </button>
+    </div>
+
+    <p id="passwordStatus" role="status" aria-live="polite"></p>
+  </form>
+</dialog>  
 
     <!-- =====================================================
          HEADER
