@@ -7,7 +7,7 @@ const sendButton = document.getElementById("sendButton");
 const status = document.getElementById("status");
 
 const GPS_URL =
-  "https://mudeung.github.io/rescue/gps.html";
+  const GPS_URL = "https://mudeung.github.io/gps.html";
 
 let openingSMS = false;
 
