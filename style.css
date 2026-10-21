@@ -128,17 +128,6 @@ input:focus-visible {
   overflow-wrap: anywhere;
 }
 
-.footer {
-  margin-top: auto;
-  padding: 18px 16px;
-  color: var(--muted);
-  font-size: 12px;
-  text-align: center;
-}
-
-.footer p {
-  margin: 0;
-}
 
 .password-panel {
   width: min(420px, calc(100% - 32px));
