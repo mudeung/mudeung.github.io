@@ -112,3 +112,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   console.log("암호 입력 기능이 정상적으로 초기화되었습니다.");
 });
+
+
+/* =====================================================
+   우클릭 및 일부 단축키 방지
+   기존 암호 입력 코드 아래에 추가
+====================================================== */
+
+// 우클릭 메뉴 방지
+document.addEventListener("contextmenu", function (event) {
+  event.preventDefault();
+});
+
+// 일부 브라우저 단축키 방지
+document.addEventListener("keydown", function (event) {
+  const key = event.key.toLowerCase();
+
+  const blocked =
+    event.key === "F12" ||
+    (event.ctrlKey && !event.shiftKey && ["u", "s"].includes(key)) ||
+    (event.ctrlKey && event.shiftKey && ["i", "j", "c"].includes(key));
+
+  if (blocked) {
+    event.preventDefault();
+  }
+});
