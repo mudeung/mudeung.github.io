@@ -449,116 +449,12 @@ button.ui-control:disabled{
 
 }
 
-
-/* 암호 입력창 */
-.password-panel {
-  width: min(420px, calc(100% - 32px));
-  padding: 26px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: var(--surface);
-  color: #20242a;
-  box-shadow: 0 18px 60px #00000025;
-}
-
-.password-panel::backdrop {
-  background: #11182780;
-  backdrop-filter: blur(3px);
-}
-
-.password-panel h2 {
-  margin: 0 0 10px;
-  font-size: 22px;
-}
-
-.password-panel > p {
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-/* 입력창과 확인 버튼을 한 줄로 정렬 */
-.password-input-row {
-  display: flex;
-  align-items: stretch;
-  gap: 10px;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.password-input-row input {
-  flex: 1;
-  width: 0;
-  min-width: 0;
-  height: 46px;
-  padding: 0 12px;
-  border: 1px solid #aeb5be;
-  border-radius: 10px;
-  background: white;
-  color: #20242a;
-  font: inherit;
-}
-
-.password-input-row .button {
-  flex: 0 0 82px;
-  min-height: 46px;
-  height: 46px;
-  padding: 0 12px;
-  border: 0;
-  border-radius: 10px;
-  background: var(--primary);
-  color: white;
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-#passwordStatus {
-  min-height: 24px;
-  margin: 8px 0 0;
-  color: var(--primary);
-  font-size: 14px;
-}
-
-.password-input-row input:focus-visible,
-.password-input-row button:focus-visible {
-  outline: 3px solid #1769aa;
-  outline-offset: 3px;
-}  
   
 </style>
 </head>
 
 
 <body>
-
-<!-- =====================================================
-         암호
-    ====================================================== -->
-  <dialog id="passwordPanel" class="password-panel"
-        aria-labelledby="passwordHeading">
-  <h2 id="passwordHeading">암호 입력</h2>
-  <p>접속하려면 접속 암호를 입력하세요.</p>
-
-  <form id="passwordForm">
-    <div class="password-input-row">
-      <input
-        id="accessPassword"
-        name="accessPassword"
-        type="password"
-        placeholder="접속 암호"
-        autocomplete="current-password"
-        maxlength="128"
-        required
-      >
-
-      <button type="submit" class="button button-primary">
-        확인
-      </button>
-    </div>
-
-    <p id="passwordStatus" role="status" aria-live="polite"></p>
-  </form>
-</dialog>    
 
 <!-- ================= HEADER ================= -->
 
@@ -1169,45 +1065,6 @@ document.addEventListener(
 );
 
 </script>
-
-<script>
-(() => {
-    const PASSWORD = "knps";
-
-    const panel = document.getElementById("passwordPanel");
-    const form = document.getElementById("passwordForm");
-    const input = document.getElementById("accessPassword");
-    const status = document.getElementById("passwordStatus");
-
-    if (!panel || !form || !input || !status) {
-        return;
-    }
-
-    // 암호 입력창 표시
-    panel.showModal();
-    input.focus();
-
-    form.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        if (input.value === PASSWORD) {
-            document.body.classList.add("password-verified");
-            panel.close();
-            input.value = "";
-        } else {
-            status.textContent = "암호가 올바르지 않습니다.";
-            input.value = "";
-            input.focus();
-        }
-    });
-
-    // 암호창 바깥 클릭으로 닫히는 것 방지
-    panel.addEventListener("cancel", (event) => {
-        event.preventDefault();
-    });
-})();
-</script>
-  
 
 </body>
 </html>
