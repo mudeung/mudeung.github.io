@@ -36,6 +36,16 @@
          CSS
     ====================================================== -->
 
+<style>
+  body {
+    visibility: hidden;
+  }
+
+  dialog[open] {
+    visibility: visible;
+  }
+</style>
+    
     <style>
 
         * {
@@ -263,7 +273,22 @@
 
 
 <body>
+<dialog id="passwordPanel">
+  <h2>암호 입력</h2>
+  <p>접속 암호를 입력하세요.</p>
 
+  <form id="passwordForm">
+    <input
+      id="accessPassword"
+      type="password"
+      placeholder="접속 암호"
+      required
+    >
+    <button type="submit">확인</button>
+  </form>
+
+  <p id="passwordStatus"></p>
+</dialog>
 
     <!-- =====================================================
          HEADER
@@ -1429,7 +1454,30 @@ ${kakaoMapURL}
         );
 
     </script>
+<script>
+  const PASSWORD = "1234"; // 원하는 암호로 변경
 
+  const panel = document.getElementById("passwordPanel");
+  const form = document.getElementById("passwordForm");
+  const input = document.getElementById("accessPassword");
+  const status = document.getElementById("passwordStatus");
+
+  panel.showModal();
+  input.focus();
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (input.value === PASSWORD) {
+      panel.close();
+      document.body.style.visibility = "visible";
+    } else {
+      status.textContent = "암호가 올바르지 않습니다.";
+      input.value = "";
+      input.focus();
+    }
+  });
+</script>
 
 </body>
 
