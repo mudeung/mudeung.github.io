@@ -3,86 +3,91 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>무등산 위치 공유시스템</title>
-
-  <!-- 검색엔진 노출 제한 -->
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
   <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
-
-  <!-- 리퍼러 정보 보호 -->
   <meta name="referrer" content="no-referrer">
   <meta name="theme-color" content="#e9e9e9">
+  <meta name="description" content="무등산특수산악구조팀 위치 공유 및 구조 지원 시스템">
 
-  <!-- 콘텐츠 보안 정책 -->
+  <!-- 외부 스크립트와 스타일은 별도 파일로 관리 -->
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://mudeung.github.io data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+    content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://mudeung.github.io data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
 
-  <!-- CSS 연결 -->
   <link rel="stylesheet" href="./style.css">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
-  <!-- JavaScript 연결 -->
   <script src="./main.js" defer></script>
 </head>
 
 <body>
-
-  <div class="header">
-    <div class="logo">
+  <header class="header">
+    <div class="logo" aria-hidden="true">
       <span class="sos">SOS</span>
     </div>
+    <h1 class="title">무등산 위치 공유시스템</h1>
+    <p class="subtitle">무등산특수산악구조팀</p>
+  </header>
 
-    <div class="title">무등산 위치 공유시스템</div>
-    <div class="subtitle">무등산특수산악구조팀</div>
-  </div>
+  <main class="main-content">
+    <section class="icon-grid" aria-label="시스템 메뉴">
+      <a class="icon-card" href="https://mudeung.github.io/gpscall.html">
+        <span class="icon" aria-hidden="true">📞</span>
+        <span class="icon-text">산악구조문자</span>
+      </a>
 
-<div id="passwordPanel" class="password-panel" hidden>
-  <h2>암호 입력</h2>
-  <p id="passwordTarget">접속하려면 공통 암호를 입력하세요.</p>
+      <a class="icon-card" href="https://mudeung.github.io/gps.html">
+        <span class="icon" aria-hidden="true">📍</span>
+        <span class="icon-text">위치공유</span>
+      </a>
 
-  <form id="passwordForm">
-    <label for="accessPassword">공통 암호</label>
-    <input
-      id="accessPassword"
-      type="password"
-      autocomplete="current-password"
-      required
-    >
-    <button type="submit">확인</button>
-    <p id="passwordStatus" role="status"></p>
-    <button type="button" id="cancelPassword">취소</button>
-  </form>
-</div>
+      <a class="icon-card" href="https://mudeung.github.io/emscall.html">
+        <span class="icon" aria-hidden="true">🖥️</span>
+        <span class="icon-text">위치확인</span>
+      </a>
 
-  <div class="icon-grid">
+      <a class="icon-card" href="https://mudeung.github.io/rescue.html">
+        <span class="icon" aria-hidden="true">🖥️</span>
+        <span class="icon-text">위치이동</span>
+      </a>
+    </section>
+  </main>
 
-    <div class="icon-card" data-href="https://mudeung.github.io/gpscall.html" tabindex="0" role="link">
-      <div class="icon">📞</div>
-      <div class="icon-text">산악구조문자</div>
-    </div>
+  <dialog id="passwordPanel" class="password-panel"
+    aria-labelledby="passwordHeading"
+    aria-describedby="passwordTarget">
+    <h2 id="passwordHeading">암호 입력</h2>
+    <p id="passwordTarget">접속하려면 공통 암호를 입력하세요.</p>
 
-    <div class="icon-card" data-href="https://mudeung.github.io/gps.html" tabindex="0" role="link">
-      <div class="icon">📍</div>
-      <div class="icon-text">위치공유</div>
-    </div>
+    <form id="passwordForm">
+      <label for="accessPassword">공통 암호</label>
+      <input
+        id="accessPassword"
+        name="accessPassword"
+        type="password"
+        autocomplete="current-password"
+        required
+        maxlength="128"
+      >
 
-    <div class="icon-card" data-href="https://mudeung.github.io/emscall.html" tabindex="0" role="link">
-      <div class="icon">🖥️</div>
-      <div class="icon-text">위치확인</div>
-    </div>
+      <p id="passwordStatus" role="status" aria-live="polite"></p>
 
-    <div class="icon-card" data-href="https://mudeung.github.io/rescue.html" tabindex="0" role="link">
-      <div class="icon">🖥️</div>
-      <div class="icon-text">위치이동</div>
-    </div>
+      <div class="password-actions">
+        <button type="submit" class="button button-primary">확인</button>
+        <button type="button" id="cancelPassword"
+          class="button button-secondary">취소</button>
+      </div>
+    </form>
+  </dialog>
 
-  </div>
-
+  <footer class="footer">
+    <p>무등산특수산악구조팀</p>
+  </footer>
 </body>
 </html>
