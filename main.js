@@ -8,7 +8,8 @@ const allowedUrls = new Set([
   "https://mudeung.github.io/rescue.html"
 ]);
 
-// 기본 화면 잠금 암호
+// 기본 화면 잠금용 예시 암호.
+// GitHub Pages에서는 이 암호가 소스 코드에 노출됩니다.
 const COMMON_PASSWORD = "1187";
 
 const protectedUrls = new Set([
@@ -16,32 +17,87 @@ const protectedUrls = new Set([
   "https://mudeung.github.io/emscall.html"
 ]);
 
-document.querySelectorAll(".icon-card[data-href]").forEach(card => {
-  function navigate() {
-    const url = card.dataset.href;
+const cards = document.querySelectorAll(".icon-card[data-href]");
+const panel = document.getElementById("passwordPanel");
+const form = document.getElementById("passwordForm");
+const passwordInput = document.getElementById("accessPassword");
+const status = document.getElementById("passwordStatus");
+const targetText = document.getElementById("passwordTarget");
+const cancelButton = document.getElementById("cancelPassword");
 
-    if (!url || !allowedUrls.has(url)) return;
+let pendingUrl = null;
 
-    if (protectedUrls.has(url)) {
-      const password = window.prompt("공통 암호를 입력하세요.");
+function closePasswordPanel() {
+  panel.hidden = true;
+  form.reset();
+  status.textContent = "";
+  pendingUrl = null;
+}
 
-      if (password === null) return;
+function openPasswordPanel(url) {
+  pendingUrl = url;
+  panel.hidden = false;
+  status.textContent = "";
 
-      if (password !== COMMON_PASSWORD) {
-        window.alert("암호가 올바르지 않습니다.");
-        return;
-      }
-    }
+  targetText.textContent =
+    url === "https://mudeung.github.io/gpscall.html"
+      ? "산악구조문자 메뉴에 접속하려면 공통 암호를 입력하세요."
+      : "위치확인 메뉴에 접속하려면 공통 암호를 입력하세요.";
 
-    window.location.assign(url);
+  passwordInput.value = "";
+  passwordInput.focus();
+
+  panel.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+}
+
+function navigate(url) {
+  if (!allowedUrls.has(url)) return;
+
+  if (protectedUrls.has(url)) {
+    openPasswordPanel(url);
+    return;
   }
 
-  card.addEventListener("click", navigate);
+  window.location.assign(url);
+}
+
+cards.forEach(card => {
+  function handleNavigation() {
+    navigate(card.dataset.href);
+  }
+
+  card.addEventListener("click", handleNavigation);
 
   card.addEventListener("keydown", event => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
-      navigate();
+      handleNavigation();
     }
   });
 });
+
+form.addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (!pendingUrl || !allowedUrls.has(pendingUrl)) {
+    closePasswordPanel();
+    return;
+  }
+
+  if (passwordInput.value !== COMMON_PASSWORD) {
+    status.textContent = "암호가 올바르지 않습니다. 다시 입력해주세요.";
+    passwordInput.value = "";
+    passwordInput.focus();
+    return;
+  }
+
+  const destination = pendingUrl;
+
+  closePasswordPanel();
+  window.location.assign(destination);
+});
+
+cancelButton.addEventListener("click", closePasswordPanel);
