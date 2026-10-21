@@ -1,4 +1,3 @@
-
 "use strict";
 
 const allowedUrls = new Set([
@@ -10,11 +9,13 @@ const allowedUrls = new Set([
 
 document.querySelectorAll(".icon-card[data-href]").forEach(card => {
   function navigate() {
-    const url = card.dataset.href;
+    const rawUrl = card.dataset.href;
 
-    if (allowedUrls.has(url)) {
-      window.location.assign(url);
+    if (!rawUrl || !allowedUrls.has(rawUrl)) {
+      return;
     }
+
+    window.location.assign(rawUrl);
   }
 
   card.addEventListener("click", navigate);
