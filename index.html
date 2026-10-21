@@ -42,6 +42,24 @@
     <div class="subtitle">무등산특수산악구조팀</div>
   </div>
 
+<div id="passwordPanel" class="password-panel" hidden>
+  <h2>암호 입력</h2>
+  <p id="passwordTarget">접속하려면 공통 암호를 입력하세요.</p>
+
+  <form id="passwordForm">
+    <label for="accessPassword">공통 암호</label>
+    <input
+      id="accessPassword"
+      type="password"
+      autocomplete="current-password"
+      required
+    >
+    <button type="submit">확인</button>
+    <p id="passwordStatus" role="status"></p>
+    <button type="button" id="cancelPassword">취소</button>
+  </form>
+</div>
+
   <div class="icon-grid">
 
     <div class="icon-card" data-href="https://mudeung.github.io/gpscall.html" tabindex="0" role="link">
