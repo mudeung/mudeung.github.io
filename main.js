@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 테스트용 암호
-  const ACCESS_PASSWORD = "1234";
+  const ACCESS_PASSWORD = "1187";
 
   let pendingUrl = "";
 
