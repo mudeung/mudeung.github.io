@@ -135,7 +135,34 @@ button:active {
 </head>
 
 <body>
+<!-- =====================================================
+         암호
+    ====================================================== -->
+  <dialog id="passwordPanel" class="password-panel"
+        aria-labelledby="passwordHeading">
+  <h2 id="passwordHeading">암호 입력</h2>
+  <p>접속하려면 접속 암호를 입력하세요.</p>
 
+  <form id="passwordForm">
+    <div class="password-input-row">
+      <input
+        id="accessPassword"
+        name="accessPassword"
+        type="password"
+        placeholder="접속 암호"
+        autocomplete="current-password"
+        maxlength="128"
+        required
+      >
+
+      <button type="submit" class="button button-primary">
+        확인
+      </button>
+    </div>
+
+    <p id="passwordStatus" role="status" aria-live="polite"></p>
+  </form>
+</dialog>  
   
 <h2>무등산 산악구조 🆘 링크 문자전송</h2>
 <p>문자를 받을 번호를 입력한 후<br>버튼을 눌러주세요.</p>
