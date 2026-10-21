@@ -200,3 +200,139 @@ body{
     }
 
 }
+
+
+/* ================= 암호 입력창 ================= */
+
+.password-panel {
+    width: calc(100% - 32px);
+    max-width: 420px;
+    margin: 20px auto;
+    padding: 24px 20px;
+
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+
+    text-align: left;
+}
+
+.password-panel[hidden] {
+    display: none !important;
+}
+
+.password-panel h2 {
+    margin: 0 0 10px;
+    color: #222;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.password-panel > p {
+    margin-bottom: 20px;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.password-panel label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.password-panel input {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: #fafafa;
+
+    color: #222;
+    font-size: 16px;
+    outline: none;
+}
+
+.password-panel input:focus {
+    border-color: #e53935;
+    box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.12);
+}
+
+.password-panel button {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    margin-top: 12px;
+    padding: 12px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #e53935;
+    color: #fff;
+
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.password-panel button:hover {
+    background: #c62828;
+}
+
+.password-panel button:focus-visible {
+    outline: 3px solid #222;
+    outline-offset: 3px;
+}
+
+.password-panel button:active {
+    transform: scale(0.99);
+}
+
+/* 취소 버튼 */
+.password-panel button#cancelPassword {
+    background: #eee;
+    color: #333;
+}
+
+.password-panel button#cancelPassword:hover {
+    background: #ddd;
+}
+
+/* 암호 오류 및 상태 안내 */
+#passwordStatus {
+    min-height: 20px;
+    margin-top: 10px;
+    color: #d32f2f;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* 작은 화면 대응 */
+@media (max-width: 360px) {
+    .password-panel {
+        padding: 20px 16px;
+        border-radius: 18px;
+    }
+
+    .password-panel h2 {
+        font-size: 19px;
+    }
+}
+
+/* 모션 감소 설정 존중 */
+@media (prefers-reduced-motion: reduce) {
+    .password-panel button {
+        transition: none;
+    }
+}
+
