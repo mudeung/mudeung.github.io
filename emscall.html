@@ -792,6 +792,42 @@ header{
 
 <script>
 
+/* =========================================
+   암호 확인
+========================================= */
+(() => {
+  const PASSWORD = "knps";
+
+  const panel = document.getElementById("passwordPanel");
+  const form = document.getElementById("passwordForm");
+  const input = document.getElementById("accessPassword");
+  const status = document.getElementById("passwordStatus");
+
+  panel.showModal();
+  input.focus();
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (input.value === PASSWORD) {
+      document.body.classList.add("password-verified");
+      panel.close();
+      input.value = "";
+      status.textContent = "";
+    } else {
+      status.textContent = "암호가 올바르지 않습니다.";
+      input.value = "";
+      input.focus();
+    }
+  });
+
+  /* ESC로 암호창 닫기 방지 */
+  panel.addEventListener("cancel", (event) => {
+    event.preventDefault();
+  });
+})();
+
+      
 /* =====================================================
    API
 ===================================================== */
