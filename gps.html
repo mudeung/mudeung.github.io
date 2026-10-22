@@ -2,209 +2,176 @@
 <html lang="ko">
 
 <head>
+<meta charset="UTF-8">
 
-    <meta charset="UTF-8">
+<title>🆘 무등산 산악사고 구조요청</title>
 
-    <title>🆘 무등산 산악사고 구조요청</title>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 
-    <meta
-        name="robots"
-        content="noindex, nofollow, noarchive, nosnippet"
-    >
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
 
-    <meta
-        name="googlebot"
-        content="noindex, nofollow, noarchive, nosnippet"
-    >
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <!-- =====================================================
-         카카오맵 SDK
-    ====================================================== -->
+<!-- =====================================================
+     카카오맵 SDK
+====================================================== -->
 
-    <script
-        src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=ff9e145029506d6e4c72d1f2b01ea424&libraries=services">
-    </script>
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=ff9e145029506d6e4c72d1f2b01ea424&libraries=services">
+</script>
 
-
-    <!-- =====================================================
-         CSS
-    ====================================================== -->
+<!-- =====================================================
+     CSS
+====================================================== -->
    
-    <style>
+<style>
 
-        * {
-            box-sizing: border-box;
-        }
+* {
+box-sizing: border-box;
+}
 
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+background: #f5f5f5;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-        }
+header {
+background: #b71c1c;
+color: white;
+padding: 14px;
+text-align: center;
+font-size: 20px;
+font-weight: bold;
+}
 
+#map {
+width: 100%;
+height: 450px;
+}
 
-        header {
-            background: #b71c1c;
-            color: white;
-            padding: 14px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-        }
+section {
+padding: 15px;
+}
 
+.info {
+background: white;
+padding: 14px;
+border-radius: 6px;
+margin-bottom: 10px;
+box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
 
-        #map {
-            width: 100%;
-            height: 450px;
-        }
+#gpsInfo {
+line-height: 1.7;
+font-size: 15px;
+}
 
+.gps-title {
+font-weight: bold;
+color: #1565c0;
+}
 
-        section {
-            padding: 15px;
-        }
+.address-box {
+margin-top: 10px;
+padding: 10px;
+background: #f1f8e9;
+border-left: 4px solid #43a047;
+border-radius: 5px;
+line-height: 1.6;
+}
 
+.address-title {
+color: #2e7d32;
+font-weight: bold;
+margin-bottom: 3px;
+}
 
-        .info {
-            background: white;
-            padding: 14px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-        }
+#addressText {
+color: #333;
+font-size: 14px;
+}
 
+button {
+width: 100%;
+padding: 14px;
+font-size: 18px;
+background: #d32f2f;
+color: white;
+border: none;
+border-radius: 6px;
+cursor: pointer;
+}
 
-        #gpsInfo {
-            line-height: 1.7;
-            font-size: 15px;
-        }
+button:hover {
+background: #b71c1c;
+}
 
+button:active {
+transform: scale(0.98);
+}
 
-        .gps-title {
-            font-weight: bold;
-            color: #1565c0;
-        }
+button:disabled {
+background: #999;
+cursor: not-allowed;
+}
 
+#sendStatus {
+margin-top: 10px;
+font-size: 14px;
+font-weight: bold;
+color: #1565c0;
+line-height: 1.7;
+word-break: break-all;
+}
 
-        .address-box {
-            margin-top: 10px;
-            padding: 10px;
-            background: #f1f8e9;
-            border-left: 4px solid #43a047;
-            border-radius: 5px;
-            line-height: 1.6;
-        }
+.small {
+font-size: 14px;
+color: #555;
+padding: 0 15px;
+line-height: 1.7;
+}
 
+.consent-info {
+padding: 0 15px;
+margin-top: 10px;
+}
 
-        .address-title {
-            color: #2e7d32;
-            font-weight: bold;
-            margin-bottom: 3px;
-        }
-
-
-        #addressText {
-            color: #333;
-            font-size: 14px;
-        }
-
-
-        button {
-            width: 100%;
-            padding: 14px;
-            font-size: 18px;
-            background: #d32f2f;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-
-        button:hover {
-            background: #b71c1c;
-        }
-
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-
-        button:disabled {
-            background: #999;
-            cursor: not-allowed;
-        }
-
-
-        #sendStatus {
-            margin-top: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #1565c0;
-            line-height: 1.7;
-            word-break: break-all;
-        }
-
-
-        .small {
-            font-size: 14px;
-            color: #555;
-            padding: 0 15px;
-            line-height: 1.7;
-        }
+.consent-title {
+font-size: 14px;
+font-weight: bold;
+background: #f2f2f2;
+padding: 10px;
+border-radius: 6px;
+cursor: pointer;
+}
 
 
-        .consent-info {
-            padding: 0 15px;
-            margin-top: 10px;
-        }
+.consent-detail {
+display: none;
+font-size: 13px;
+margin-top: 8px;
+padding: 10px;
+background: #fafafa;
+border-radius: 6px;
+line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+header {
+font-size: 18px;
+}
+
+#map {
+height: 400px;
+}
 
 
-        .consent-title {
-            font-size: 14px;
-            font-weight: bold;
-            background: #f2f2f2;
-            padding: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+button {
+width: 100%;
+  }
 
-
-        .consent-detail {
-            display: none;
-            font-size: 13px;
-            margin-top: 8px;
-            padding: 10px;
-            background: #fafafa;
-            border-radius: 6px;
-            line-height: 1.6;
-        }
-
-
-        @media (max-width: 768px) {
-
-            header {
-                font-size: 18px;
-            }
-
-
-            #map {
-                height: 400px;
-            }
-
-
-            button {
-                width: 100%;
-            }
-
-        }
+}
 
 .battery-box {
     margin-top: 10px;
@@ -347,11 +314,11 @@
     >
 
 
-<!-- =====================================================
+    <!-- =====================================================
      GPS 정보
-====================================================== -->
+    ====================================================== -->
 
-<section>
+    <section>
     <div class="info">
 
         <div id="gpsInfo">
@@ -388,7 +355,7 @@
         <div id="sendStatus"></div>
 
     </div>
-</section>
+    </section>
 
 
     <!-- =====================================================
