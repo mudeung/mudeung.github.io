@@ -2,26 +2,15 @@
 <html lang="ko">
 
 <head>
-
 <meta charset="utf-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>🛰 SEARCH & RESCUE AI Ver1.2</title>
-
-<link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet/dist/leaflet.css"
-/>
-
-<link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"
-/>
+      
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"/>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
 
 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=ff9e145029506d6e4c72d1f2b01ea424&libraries=services"></script>
@@ -497,8 +486,9 @@ header{
 
 }
 
-
-/* 암호 입력창 */
+/* =====================================================
+   암호 입력창
+===================================================== */
 .password-panel {
   width: min(420px, calc(100% - 32px));
   max-width: 420px;
@@ -528,7 +518,9 @@ header{
   text-align: left;
 }
 
-/* 암호 입력창과 확인 버튼 한 줄 배치 */
+/* =====================================================
+   암호 입력창과 확인 버튼 한 줄 배치
+===================================================== */      
 .password-input-row {
   display: flex;
   align-items: stretch;
@@ -589,26 +581,24 @@ header{
 }      
       
 </style>
-
 </head>
-
 
 <body>
 
-<!-- 암호 입력창 -->
+/* =====================================================
+   암호 입력창
+===================================================== */
 <dialog id="passwordPanel" class="password-panel"
         aria-labelledby="passwordHeading"
         aria-describedby="passwordDescription">
 
-  <h2 id="passwordHeading">암호 입력</h2>
+<h2 id="passwordHeading">암호 입력</h2>
 
-  <p id="passwordDescription">
-    접속하려면 접속 암호를 입력하세요.
-  </p>
+<p id="passwordDescription"> 접속하려면 접속 암호를 입력하세요. </p>
 
-  <form id="passwordForm">
-    <div class="password-input-row">
-      <input
+<form id="passwordForm">
+<div class="password-input-row">
+<input
         id="accessPassword"
         name="accessPassword"
         type="password"
@@ -618,143 +608,94 @@ header{
         required
       >
 
-      <button type="submit" class="button">
-        확인
-      </button>
-    </div>
+<button type="submit" class="button"> 확인 </button>
+</div>
 
-    <p id="passwordStatus" role="status"
-       aria-live="polite"></p>
-  </form>
+<p id="passwordStatus" role="status" aria-live="polite"></p>
+</form>
 </dialog>
 
       
-<header>
-🛰 SEARCH & RESCUE AI Ver1.2
-</header>
+<header> 🛰 SEARCH & RESCUE AI Ver1.2 </header>
 
-
-<div id="accidentCount">
-    🆘 사고정보 0건
-</div>
-
+<div id="accidentCount"> 🆘 사고정보 0건 </div>
 
 <div id="map"></div>
 
-
 <div id="aiSearchPanel">
 
-    <div class="ai-header">
+<div class="ai-header">
 
-        <div class="ai-header-title">
+<div class="ai-header-title">
 
-            <span>
-                🧠 구조대 AI 검색
-            </span>
+<span> 🧠 구조대 AI 검색 </span>
 
-            <span class="ai-header-sub">
-                LOCAL / API 없음
-            </span>
+<span class="ai-header-sub"> LOCAL / API 없음 </span>
+</div>
 
-        </div>
+<button type="button" onclick="closeAISearch()"> ✕ </button>
+</div>
 
-        <button
-            type="button"
-            onclick="closeAISearch()"
-        >
-            ✕
-        </button>
-
-    </div>
-
-
-    <div class="ai-body">
-
-        <div class="ai-description">
-
+<div class="ai-body">
+<div class="ai-description"> 
             사고정보를 자연어로 검색하세요.<br>
 
             현재 사고 데이터는 브라우저에서
             직접 검색됩니다.
+</div>
 
-        </div>
+<div class="ai-input-row">
 
-
-        <div class="ai-input-row">
-
-            <input
-                id="aiQuestion"
-                type="text"
-                placeholder="예: 전송번호 TX-001 찾아줘"
-                autocomplete="off"
+<input
+      id="aiQuestion"
+      type="text"
+      placeholder="예: 전송번호 TX-001 찾아줘"
+      autocomplete="off"
             >
 
-            <button
-                type="button"
-                onclick="askLocalAI()"
-            >
-                검색
-            </button>
+<button type="button" onclick="askLocalAI()"> 검색 </button>
+</div>
 
-        </div>
+<div class="ai-examples">
 
-
-        <div class="ai-examples">
-
-            <button
-                onclick="setAIQuestion('현재 사고 몇 건이야?')"
-            >
+            <button onclick="setAIQuestion('현재 사고 몇 건이야?')">
                 현재 사고
             </button>
 
-            <button
-                onclick="setAIQuestion('10분 이상 미처리 사고 찾아줘')"
-            >
+            <button onclick="setAIQuestion('10분 이상 미처리 사고 찾아줘')">
                 10분 이상
             </button>
 
-            <button
-                onclick="setAIQuestion('접수 사고 보여줘')"
-            >
+            <button onclick="setAIQuestion('접수 사고 보여줘')">
                 접수
             </button>
 
-            <button
-                onclick="setAIQuestion('현장도착 사고 보여줘')"
-            >
+            <button onclick="setAIQuestion('현장도착 사고 보여줘')">
                 현장도착
             </button>
 
-            <button
-                onclick="setAIQuestion('완료 사고 보여줘')"
-            >
+            <button onclick="setAIQuestion('완료 사고 보여줘')">
                 완료
             </button>
 
-            <button
-                onclick="setAIQuestion('가장 오래된 사고 보여줘')"
-            >
+            <button onclick="setAIQuestion('가장 오래된 사고 보여줘')">
                 오래된 사고
             </button>
 
-            <button
-                onclick="setAIQuestion('전송번호 찾아줘')"
-            >
+            <button onclick="setAIQuestion('전송번호 찾아줘')">
                 전송번호
             </button>
 
         </div>
 
 
-        <div
-            id="aiResult"
-            class="ai-result"
-        >
+<div
+    id="aiResult"
+    class="ai-result">
             질문을 입력해주세요.
         </div>
 
-
-        <div class="ai-help">
+<div class="ai-help">
 
             예시:
             <br>
@@ -772,23 +713,18 @@ header{
             <br>
             • 전송번호 TX-001 찾아줘
 
-        </div>
-
-    </div>
+</div>
 
 </div>
 
+</div>
 
 <audio
     id="alertSound"
     preload="auto"
 >
-    <source
-        src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"
-        type="audio/ogg"
-    >
+<source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
 </audio>
-
 
 <script>
 
