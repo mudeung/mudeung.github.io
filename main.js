@@ -8,12 +8,11 @@ document.addEventListener("DOMContentLoaded", () => { /*
 
 document.querySelectorAll(".icon-card").forEach((card) => { card.addEventListener("click", (event) => { const url = card.getAttribute("href");
 
-  if (!url) {
+if (!url) {
     event.preventDefault();
     console.error("메뉴 주소를 찾을 수 없습니다.");
   }
 });
-
 
 });
 
