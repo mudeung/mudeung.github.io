@@ -387,14 +387,13 @@ h1, h2 {
 /* =========================================
    문자 전송
 ========================================= */
+
 function sendSMS() {
-  // 만료 링크에서는 문자 전송 금지
   if (window.MUDEUNG_LINK_EXPIRED) {
     alert("링크 사용 기간이 만료되었습니다.");
     return;
   }
 
-  // 암호 확인 전에는 문자 전송 금지
   if (!document.body.classList.contains("password-verified")) {
     alert("먼저 접속 암호를 확인해주세요.");
     return;
@@ -409,7 +408,6 @@ function sendSMS() {
     return;
   }
 
-  // 전화번호 형식 확인
   const normalizedPhone = phone.replace(/[\s-]/g, "");
 
   if (!/^\+?[0-9]{8,15}$/.test(normalizedPhone)) {
@@ -418,8 +416,12 @@ function sendSMS() {
     return;
   }
 
-  // 공유 링크 기본 주소
-  const link = "https://mudeung.github.io/gps";
+  // 링크 유효시간: 현재 시간부터 60분
+  const expires = Date.now() + 60 * 60 * 1000;
+
+  // 만료시간이 포함된 위치 링크
+  const link =
+    "https://mudeung.github.io/gps?expires=" + expires;
 
   const message =
     "[무등산 산악구조 요청]\n" +
@@ -427,7 +429,6 @@ function sendSMS() {
     link;
 
   const encoded = encodeURIComponent(message);
-
   const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   const separator = isIOS ? "&" : "?";
@@ -438,8 +439,6 @@ function sendSMS() {
 
   window.location.href = smsURL;
 }
-
-document.getElementById("sendButton").addEventListener("click", sendSMS);
 
 /* =========================================
    우클릭 및 단축키 방지
