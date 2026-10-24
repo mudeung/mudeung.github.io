@@ -9,6 +9,30 @@
 <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- =========================================
+     공유 링크 만료시간 확인
+     expires 값은 Unix 타임스탬프(밀리초)
+========================================= -->
+<script>
+(function () {
+    const params = new URLSearchParams(location.search);
+
+    // expires 매개변수가 없는 기존 주소는 그대로 사용
+    if (!params.has("expires")) {
+        window.MUDEUNG_LINK_EXPIRED = false;
+        return;
+    }
+
+    const rawExpires = params.get("expires");
+    const expires = Number(rawExpires);
+
+    window.MUDEUNG_LINK_EXPIRED =
+        rawExpires === "" ||
+        !Number.isSafeInteger(expires) ||
+        expires <= Date.now();
+})();
+</script>
+
 <style>
 :root {
   color-scheme: light;
@@ -32,8 +56,13 @@ body {
 }
 
 /* 암호 확인 전 본문 숨김 */
-body:not(.password-verified) > :not(#passwordPanel) {
+body:not(.password-verified):not(.link-expired) > :not(#passwordPanel):not(#expiredPanel) {
   visibility: hidden;
+}
+
+/* 만료된 경우 기존 콘텐츠 숨김 */
+body.link-expired > :not(#expiredPanel) {
+  display: none !important;
 }
 
 h1, h2 {
@@ -107,7 +136,7 @@ h1, h2 {
   text-align: left;
 }
 
-/* 암호 입력창과 확인 버튼 한 줄 배치 */
+/* 암호 입력과 확인 버튼 한 줄 배치 */
 .password-input-row {
   display: flex;
   align-items: stretch;
@@ -157,6 +186,28 @@ h1, h2 {
   outline-offset: 3px;
 }
 
+/* 링크 만료 안내 */
+.expired-panel {
+  width: min(420px, calc(100% - 32px));
+  margin: 60px auto;
+  padding: 28px 20px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #fff;
+  color: #20242a;
+  line-height: 1.7;
+  box-shadow: 0 18px 60px #00000025;
+}
+
+.expired-panel h2 {
+  margin: 0 0 16px;
+  color: #b42318;
+}
+
+.expired-panel p {
+  margin: 8px 0;
+}
+
 @media (max-width: 380px) {
   body {
     padding: 24px 12px;
@@ -171,8 +222,31 @@ h1, h2 {
 
 <body>
 
-<!-- 암호 입력창 -->
-<dialog id="passwordPanel" class="password-panel"
+<!-- =========================================
+     만료 링크 안내
+========================================= -->
+<div id="expiredPanel"
+     class="expired-panel"
+     role="alert"
+     style="display:none;">
+
+  <h2>링크 사용 기간 만료</h2>
+
+  <p>
+    이 공유 링크는 만료되었거나<br>
+    유효하지 않습니다.
+  </p>
+
+  <p>
+    새로운 링크를 발급받아 접속해 주세요.
+  </p>
+</div>
+
+<!-- =========================================
+     암호 입력창
+========================================= -->
+<dialog id="passwordPanel"
+        class="password-panel"
         aria-labelledby="passwordHeading"
         aria-describedby="passwordDescription">
 
@@ -184,6 +258,7 @@ h1, h2 {
 
   <form id="passwordForm">
     <div class="password-input-row">
+
       <input
         id="accessPassword"
         name="accessPassword"
@@ -197,14 +272,18 @@ h1, h2 {
       <button type="submit" class="button">
         확인
       </button>
+
     </div>
 
-    <p id="passwordStatus" role="status"
+    <p id="passwordStatus"
+       role="status"
        aria-live="polite"></p>
   </form>
 </dialog>
 
-<!-- 페이지 제목 -->
+<!-- =========================================
+     페이지 본문
+========================================= -->
 <h2>무등산 산악구조 🆘 링크 문자전송</h2>
 
 <p>
@@ -242,9 +321,37 @@ h1, h2 {
 
 <script>
 /* =========================================
+   링크 만료 확인 및 화면 처리
+========================================= */
+(function () {
+  if (!window.MUDEUNG_LINK_EXPIRED) {
+    return;
+  }
+
+  // 만료된 경우 암호 입력창을 열지 않음
+  document.body.classList.add("link-expired");
+
+  const panel = document.getElementById("passwordPanel");
+  const expiredPanel = document.getElementById("expiredPanel");
+
+  if (panel) {
+    panel.remove();
+  }
+
+  if (expiredPanel) {
+    expiredPanel.style.display = "block";
+  }
+})();
+
+/* =========================================
    암호 확인
 ========================================= */
-(() => {
+(function () {
+  // 만료된 링크는 암호 확인 절차를 실행하지 않음
+  if (window.MUDEUNG_LINK_EXPIRED) {
+    return;
+  }
+
   const PASSWORD = "knps";
 
   const panel = document.getElementById("passwordPanel");
@@ -252,14 +359,16 @@ h1, h2 {
   const input = document.getElementById("accessPassword");
   const status = document.getElementById("passwordStatus");
 
+  // 암호창 표시
   panel.showModal();
   input.focus();
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", function (event) {
     event.preventDefault();
 
     if (input.value === PASSWORD) {
       document.body.classList.add("password-verified");
+
       panel.close();
       input.value = "";
       status.textContent = "";
@@ -270,8 +379,8 @@ h1, h2 {
     }
   });
 
-  /* ESC로 암호창 닫기 방지 */
-  panel.addEventListener("cancel", (event) => {
+  // ESC로 암호창 닫기 방지
+  panel.addEventListener("cancel", function (event) {
     event.preventDefault();
   });
 })();
@@ -280,24 +389,38 @@ h1, h2 {
    문자 전송
 ========================================= */
 function sendSMS() {
-  const phone = document.getElementById("phone").value.trim();
-
-  if (!phone) {
-    alert("받는 사람 번호를 입력해주세요.");
-    document.getElementById("phone").focus();
+  // 만료 링크에서는 문자 전송 금지
+  if (window.MUDEUNG_LINK_EXPIRED) {
+    alert("링크 사용 기간이 만료되었습니다.");
     return;
   }
 
-  /* 전화번호 형식 확인 */
+  // 암호 확인 전에는 문자 전송 금지
+  if (!document.body.classList.contains("password-verified")) {
+    alert("먼저 접속 암호를 확인해주세요.");
+    return;
+  }
+
+  const phoneInput = document.getElementById("phone");
+  const phone = phoneInput.value.trim();
+
+  if (!phone) {
+    alert("받는 사람 번호를 입력해주세요.");
+    phoneInput.focus();
+    return;
+  }
+
+  // 전화번호 형식 확인
   const normalizedPhone = phone.replace(/[\s-]/g, "");
 
   if (!/^\+?[0-9]{8,15}$/.test(normalizedPhone)) {
     alert("받는 사람 전화번호를 올바르게 입력해주세요.");
-    document.getElementById("phone").focus();
+    phoneInput.focus();
     return;
   }
 
-  const link = "https://mudeung.github.io/rescue/gps.html";
+  // 공유 링크 기본 주소
+  const link = "https://mudeung.github.io/gps";
 
   const message =
     "[무등산 산악구조 요청]\n" +
@@ -308,9 +431,11 @@ function sendSMS() {
 
   const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  const smsURL = isIOS
-    ? `sms:${normalizedPhone}&body=${encoded}`
-    : `sms:${normalizedPhone}?body=${encoded}`;
+  const separator = isIOS ? "&" : "?";
+
+  const smsURL =
+    "sms:" + normalizedPhone +
+    separator + "body=" + encoded;
 
   window.location.href = smsURL;
 }
@@ -320,11 +445,11 @@ document.getElementById("sendButton").addEventListener("click", sendSMS);
 /* =========================================
    우클릭 및 단축키 방지
 ========================================= */
-document.addEventListener("contextmenu", (event) => {
+document.addEventListener("contextmenu", function (event) {
   event.preventDefault();
 });
 
-document.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", function (event) {
   const key = event.key.toLowerCase();
 
   if (
