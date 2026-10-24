@@ -446,6 +446,14 @@ function sendSMS() {
 }
 
 /* =========================================
+   문자 전송 버튼 이벤트 연결
+========================================= */
+document.getElementById("sendButton").addEventListener("click", function (event) {
+  event.preventDefault();
+  sendSMS();
+});
+     
+/* =========================================
    우클릭 및 단축키 방지
 ========================================= */
 document.addEventListener("contextmenu", function (event) {
