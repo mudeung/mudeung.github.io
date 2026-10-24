@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>무등산 산악구조 🆘 링크 문자전송</title>
+
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  color-scheme: light;
+  --primary: #b42318;
+  --surface: #fff;
+  --border: #d7dbe0;
+  --muted: #626b76;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 30px 16px;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #fff;
+  text-align: center;
+}
+
+/* 암호 확인 전 본문 숨김 */
+body:not(.password-verified) > :not(#passwordPanel) {
+  visibility: hidden;
+}
+
+h1, h2 {
+  color: #ff4d4d;
+  margin-bottom: 20px;
+}
+
+.phone-input {
+  display: block;
+  width: 90%;
+  max-width: 360px;
+  margin: 0 auto 15px;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+}
+
+.sms-button {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 18px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  background: #ff4d4d;
+  color: #fff;
+  cursor: pointer;
+}
+
+.sms-button:active {
+  background: #cc0000;
+}
+
+.footer {
+  margin-top: 30px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+/* 암호 입력창 */
+.password-panel {
+  width: min(420px, calc(100% - 32px));
+  max-width: 420px;
+  padding: 26px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  color: #20242a;
+  box-shadow: 0 18px 60px #00000025;
+}
+
+.password-panel::backdrop {
+  background: #111827cc;
+  backdrop-filter: blur(3px);
+}
+
+.password-panel h2 {
+  margin: 0 0 10px;
+  color: #20242a;
+  font-size: 22px;
+  text-align: left;
+}
+
+.password-panel > p {
+  color: var(--muted);
+  line-height: 1.6;
+  text-align: left;
+}
+
+/* 암호 입력창과 확인 버튼 한 줄 배치 */
+.password-input-row {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.password-input-row input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  height: 46px;
+  padding: 0 12px;
+  border: 1px solid #aeb5be;
+  border-radius: 10px;
+  background: #fff;
+  color: #20242a;
+  font: inherit;
+}
+
+.password-input-row .button {
+  flex: 0 0 82px;
+  width: 82px;
+  height: 46px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--primary);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#passwordStatus {
+  min-height: 24px;
+  margin: 8px 0 0;
+  color: var(--primary);
+  font-size: 14px;
+  text-align: left;
+}
+
+.password-input-row input:focus-visible,
+.password-input-row button:focus-visible {
+  outline: 3px solid #1769aa;
+  outline-offset: 3px;
+}
+
+@media (max-width: 380px) {
+  body {
+    padding: 24px 12px;
+  }
+
+  .password-panel {
+    padding: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 암호 입력창 -->
+<dialog id="passwordPanel" class="password-panel"
+        aria-labelledby="passwordHeading"
+        aria-describedby="passwordDescription">
+
+  <h2 id="passwordHeading">암호 입력</h2>
+
+  <p id="passwordDescription">
+    접속하려면 접속 암호를 입력하세요.
+  </p>
+
+  <form id="passwordForm">
+    <div class="password-input-row">
+      <input
+        id="accessPassword"
+        name="accessPassword"
+        type="password"
+        placeholder="접속 암호"
+        autocomplete="current-password"
+        maxlength="128"
+        required
+      >
+
+      <button type="submit" class="button">
+        확인
+      </button>
+    </div>
+
+    <p id="passwordStatus" role="status"
+       aria-live="polite"></p>
+  </form>
+</dialog>
+
+<!-- 페이지 제목 -->
+<h2>무등산 산악구조 🆘 링크 문자전송</h2>
+
+<p>
+  문자를 받을 번호를 입력한 후<br>
+  버튼을 눌러주세요.
+</p>
+
+<!-- 받는 사람 전화번호 -->
+<input
+  class="phone-input"
+  type="tel"
+  id="phone"
+  placeholder="받는 사람 번호 (예: 01012345678)"
+  inputmode="tel"
+  autocomplete="tel"
+/>
+
+<!-- 문자 전송 -->
+<button class="sms-button" id="sendButton" type="button">
+  📩 위치 링크 문자 보내기
+</button>
+
+<div class="footer">
+  ※ 문자전송 버튼은 휴대폰에서 눌러야 합니다
+</div>
+
+<br>
+
+<!-- 달콩이 이미지 -->
+<img
+  src="https://mudeung.github.io/rescue/logogomir1.png"
+  alt="달콩이 이미지"
+  style="display:block; margin:0 auto; max-width:100%; height:auto;"
+>
+
+<script>
+/* =========================================
+   암호 확인
+========================================= */
+(() => {
+  const PASSWORD = "knps";
+
+  const panel = document.getElementById("passwordPanel");
+  const form = document.getElementById("passwordForm");
+  const input = document.getElementById("accessPassword");
+  const status = document.getElementById("passwordStatus");
+
+  panel.showModal();
+  input.focus();
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (input.value === PASSWORD) {
+      document.body.classList.add("password-verified");
+      panel.close();
+      input.value = "";
+      status.textContent = "";
+    } else {
+      status.textContent = "암호가 올바르지 않습니다.";
+      input.value = "";
+      input.focus();
+    }
+  });
+
+  /* ESC로 암호창 닫기 방지 */
+  panel.addEventListener("cancel", (event) => {
+    event.preventDefault();
+  });
+})();
+
+/* =========================================
+   문자 전송
+========================================= */
+function sendSMS() {
+  const phone = document.getElementById("phone").value.trim();
+
+  if (!phone) {
+    alert("받는 사람 번호를 입력해주세요.");
+    document.getElementById("phone").focus();
+    return;
+  }
+
+  /* 전화번호 형식 확인 */
+  const normalizedPhone = phone.replace(/[\s-]/g, "");
+
+  if (!/^\+?[0-9]{8,15}$/.test(normalizedPhone)) {
+    alert("받는 사람 전화번호를 올바르게 입력해주세요.");
+    document.getElementById("phone").focus();
+    return;
+  }
+
+  const link = "https://mudeung.github.io/rescue/gps.html";
+
+  const message =
+    "[무등산 산악구조 요청]\n" +
+    "국립공원 특수구조대입니다. 링크를 클릭해 주세요.\n" +
+    link;
+
+  const encoded = encodeURIComponent(message);
+
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  const smsURL = isIOS
+    ? `sms:${normalizedPhone}&body=${encoded}`
+    : `sms:${normalizedPhone}?body=${encoded}`;
+
+  window.location.href = smsURL;
+}
+
+document.getElementById("sendButton").addEventListener("click", sendSMS);
+
+/* =========================================
+   우클릭 및 단축키 방지
+========================================= */
+document.addEventListener("contextmenu", (event) => {
+  event.preventDefault();
+});
+
+document.addEventListener("keydown", (event) => {
+  const key = event.key.toLowerCase();
+
+  if (
+    event.key === "F12" ||
+    (event.ctrlKey && ["u", "s"].includes(key)) ||
+    (event.ctrlKey && event.shiftKey && ["i", "j", "c"].includes(key))
+  ) {
+    event.preventDefault();
+  }
+});
+</script>
+
+</body>
+</html>
